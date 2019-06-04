@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>블랙보드 알림 로그인</title>
+		<style>
+			span {font-size: 3em;}
+			input {width: 400px; margin-top:40px; padding-left: 5px; font-size: 2em; border-radius: 7px;}
+
+			#wrapper {width: 600px; margin:60px auto; text-align: center;}
+			#entry_login:hover {background-color: #eeeeee;}
+		</style>
+	</head>
+	<body>
+		<span style="color: red;">!!!!!경고!!!!!<br>보안적으로 매우 안전하지 않지만, 상관없으면 사용하세요.</span><br/>
+		<div id="wrapper">
+			<span id = "title">블랙보드 로그인</span>
+
+			<form action="https://auth.korea.ac.kr/directLoginNew.jsp" method="POST" name="login" id="login_form">
+				<input type="text" id="id" name="id" size="25" maxlength="50" placeholder="사용자명">
+				<input type="password" id="pw" name="pw" autocomplete="off" size="25" placeholder="비밀번호">
+				<input type="button" id="entry_login" value="로그인" name="login">
+				<input type="hidden" id="returnURL" name="returnURL" value="kulms.korea.ac.kr">
+			</form>
+		</div>
+
+		<script src="login.js"></script>
+	</body>
+</html>

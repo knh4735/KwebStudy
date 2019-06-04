@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>블랙보드 강의 설정</title>
+		<style>
+			#title {font-size: 2em;}
+			input, span {width: 800px; padding-left: 5px; font-size: 2em; border-radius: 7px;}
+			button {width: 80px; margin-left:20px; font-size: 1.6em; border-radius: 7px; height: 34px; line-height: 32px;}
+
+			#wrapper {width: 1000px; margin:60px auto; text-align: center;}
+			.entry, #add_url {margin-top:40px; padding: 5px; background-color:#fafafa; border-radius: 10px;}
+			.url {display: none;}
+
+			#url_clone {display: none;}
+			#save_btn {margin-top: 50px;}
+		</style>
+		<script src="jquery-3.3.1.min.js"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<span id="title">알림을 받고싶은 강의의 블랙보드 URL을 등록하세요.</span>
+
+			<div id="add_url">
+				<input type="text" placeholder="강의 URL" />
+				<button id="add_btn">추가</button>
+			</div>
+
+			<button id="save_btn">저장</button>
+		</div>
+
+		
+
+		<div id="url_clone" class="entry">
+			<span class="title"></span>
+			<button class="delete_btn">삭제</button>
+		</div>
+
+		<script src="set_lecture.js"></script>
+	</body>
+</html>
