@@ -1,4 +1,19 @@
 # KwebStudy
+Study materials in Kweb (in Branch)
 
-### From 2016 - 1
-나머진 날아감...
+### 2019 - 1
+- Chrome Extension : Make Alarm for Blackboard system
+- Study Docker and Kubernetes
+- Study in klue : React, Node, Server system etc.
+
+### 2016 - 2 
+- Run Rest API & GraphQL Server with parsed Pokemon DB 
+
+
+### 2016 - 1
+- Make a timeline style page with React.js
+
+### ETC
+- 2014 : HTML+CSS+JS / Apache+PHP+MySQL
+- 2015 - 1 : Parsing, Crawling, Social Login API
+- 2015 - 2 : HTML5 Canvas, WebGL
