@@ -1,0 +1,6 @@
+
+$(function(){
+ $("div#translate").click(function(){
+     $("form").submit();
+ });
+});
