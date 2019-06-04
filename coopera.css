@@ -1,0 +1,69 @@
+
+body {background-color:rgb(250,250,250);}
+#header {position:fixed; top:0; left:0; width:100%; height:50px; background-color:rgb(102,102,102); z-index: 1;}
+#logo {width:180px; margin-left:50px;}
+.card, #post {
+	background-color:white; margin:0 auto;
+	width:500px;
+	border-radius:3px; box-shadow: 0 0 10px 0 #bbbbbb;
+}
+input:focus, textarea:focus, button:focus {outline: none;} 
+
+.card {margin-top:20px; margin-bottom:20px; height:250px; overflow:hidden!important; }
+.cardPck {width:100%; height:10%; padding:5px; margin-left:10px; margin-top:10px; font-weight: bold; font-size:large;}
+.cardInfo {height:60%; padding:5px; margin: 0 auto; text-align:center;}
+.cardTail {width:100%; height:50px;}
+.cardLike {width:249px; float:left; height:100%; border:1px solid #dddddd; background-color:#eeeeee;}
+.cardLike:hover {background-color:#e0e0e0;}
+.cardCmt {width:249px; float:right; height:100%; border:1px solid #dddddd; background-color:#eeeeee;}
+.bridge {width:249px; z-index:1; background-color:#eeeeee; height:20px; position:relative; left:270px; top:50px;}
+.opened .cmtsWrap {width:500px; height:300px; background-color:#f7f7f7; margin-top:45px; position:absolute; border-radius:3px; opacity:0; box-shadow: 0 0 10px 0 #bbbbbb; z-index:10;}
+.opened .noCmt {margin:0 auto; text-align:center;}
+.cmtsWrap {padding-top:20px; z-index:-1;}
+.cmt {margin-bottom:10px;}
+.cmtCode {display:inline-block; width:130px; font-weight:bold; padding-left:30px;}
+.cmtInfo {display:inline-block; width:300px;}
+
+.cmtInput {margin-top:20px;}
+.cmtInput input {height:20px; border-radius:3px; border:none; border-bottom:1px solid #dddddd;}
+.cmtInput input[name='code'] {width:110px; margin-left:25px; margin-right:15px;}
+.cmtInput input[name='info'] {width:300px;}
+
+.closed .cmtsWrap {display:none;}
+
+.cardInfo table {margin-top:20px; margin-left:80px;}
+.cardInfo table td {border:none; width:120px;}
+
+#post {margin-top:50px; margin-bottom: 20px; height:250px; overflow:hidden;}
+#postPck {width:96%; height:10%; padding:2px; margin-bottom:10px; margin-left:10px; margin-top:10px; font-weight: bold; border:none; font-size:large;}
+#postInfo {width:96%; height:64%; padding:2px; margin-left:10px; border:none; margin-bottom:7px; text-align:center; resize:none;}
+#postSubmit {width:100%; height:15%; border:1px solid #dddddd; background-color:#eeeeee;}
+
+
+.heart {
+  position:absolute; z-index: 0;
+  width: 100px;
+  height: 46px;
+  margin-left:75px;
+  border:none;
+  transform: translate(0%, 0%);
+  //transform: scale(0.5,0.5);
+  background: url(https://abs.twimg.com/a/1446542199/img/t1/web_heart_animation.png) no-repeat;
+  background-position: left;
+  background-color: rgba(0,0,0,0);
+  cursor: pointer; //커서 올렸을 때 손가락 모양 나오게..
+  //animation: fave-heart 1s steps(28); <-처음 로드되었을 때 하트 한번 실행되도록 하는...
+}
+
+.heart.active {
+  background-position: right;
+  transition: background 1s steps(28); //정해진 라인?대로 그림을 쫘라라락 보여줌
+}
+@keyframes fave-heart {
+  0% {
+    background-position: left;
+  }
+  100% {
+    background-position: right;
+  }
+} //https://cssanimation.rocks/images/posts/steps/heart.png
