@@ -1,14 +1,15 @@
-(function() {
-	const wrapper = $("#wrapper");
+const loadAlarm = ()=>{
 	const clone = $("#entry_clone").clone().removeAttr("id");
+	const wrapper = $("#wrapper");
 
 	chrome.runtime.sendMessage({msg: "getLecture"}, (response)=>{
 		if(!response.Lecture) return;
 
 		const lectures = response.Lecture;
 
+		wrapper.empty();
 		wrapper.css("height", `${lectures.length * 60 + 5}px`);
-		$("body").css("height", `${lectures.length * 60 + 40}px`);
+		$("body").css("height", `${lectures.length * 60 + 20}px`);
 
 		lectures.forEach((entry)=>{
 			let elem = clone.clone();
@@ -25,6 +26,10 @@
 			wrapper.append(elem);
 		});
 	});
+}
+
+(function() {
+	loadAlarm();
 
 	$("#add").on("click", function(){
 		chrome.runtime.sendMessage({msg: "editLecture"}, (response)=>{
@@ -32,11 +37,14 @@
 		});
 	});
 
-	wrapper.on("click", ".entry .element", function(){
-		chrome.tabs.create({url: $(this).attr("href")});
-
-		chrome.runtime.sendMessage({msg: "checkoutAlarm", title: $(this).closest(".entry").attr("title")}, (response)=>{
-			console.log(1);
+	$("#refresh").on("click", function(){
+		chrome.runtime.sendMessage({msg: "refreshAlarm"}, (response)=>{
+			loadAlarm();
 		});
+	});
+
+	$("#wrapper").on("click", ".entry .element", function(){
+		chrome.tabs.create({url: $(this).attr("href")});
+		chrome.runtime.sendMessage({msg: "checkoutAlarm", title: $(this).closest(".entry").attr("title")});
 	});
 })();

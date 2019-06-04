@@ -1,18 +1,21 @@
-const INTERVAL_MINUTES = minutes=>{
-	return 1000 * 60 * minutes;
+
+const init = ()=>{
+	//Loading sign on badge
+	chrome.browserAction.setBadgeText({text: '...'});
+	chrome.browserAction.setBadgeBackgroundColor({color: "#888800"});
+
+	// Regularly Access (30 minutes) to Blackboard and get lecture diff
+	access();
+	let accessInterval = setInterval(access, INTERVAL_MINUTES(30));
+
+	chrome.runtime.onMessage.addListener(msgListener);
 };
 
-const isLoggedIn = data=>{
-	return data.indexOf("Forgot Your Password?") === -1;
-};
+const INTERVAL_MINUTES = minutes => 1000 * 60 * minutes;
 
-const makeLoginForm = (id, pw)=>{
-	let form = $('<form action="https://auth.korea.ac.kr/directLoginNew.jsp" method="POST" name="login" id="login_form"><input type="text" id="id" name="id" size="25" maxlength="50" placeholder="사용자명"><input type="password" id="pw" name="pw" autocomplete="off" size="25" placeholder="비밀번호"><input type="submit" id="entry_login" value="로그인" name="login"><input type="hidden" id="returnURL" name="returnURL" value="kulms.korea.ac.kr"></form>');
-	form.children("#id").val(id);
-	form.children("#pw").val(pw);
+const isLoggedIn = data => data.indexOf("Forgot Your Password?") === -1;
 
-	return form.serialize();
-};
+const makeLoginForm = (id, pw) => `id=${id}&pw=${pw}&returnURL=kulms.korea.ac.kr`;
 
 const loginBlackboard = async (id, pw)=>{
 	const loginData = makeLoginForm(id, pw);
@@ -152,6 +155,32 @@ const msgListener = (request, sender, sendResponse)=>{
 			});
 			break;
 
+		case "checkoutAlarm":
+			const title = request.title;
+			chrome.storage.local.get(["lecture"], function(result){
+				const updatedLecture = result.lecture.map((lecture)=>{
+					if(lecture.title === title)
+						return {
+							...lecture,
+							record: lecture.alarm
+						};
+
+					else return lecture;
+				});
+				
+				chrome.storage.local.set({lecture: updatedLecture});
+				updateBadge(updatedLecture);
+			});
+
+			break;
+
+		case "refreshAlarm":
+			access().then(()=>{
+				sendResponse({});
+			});
+
+			break;
+
 		case "setLecture":
 			const lectureURLs = request.LectureURL;
 			const defaultLecture = {
@@ -203,25 +232,6 @@ const msgListener = (request, sender, sendResponse)=>{
 
 			break;
 
-		case "checkoutAlarm":
-			const title = request.title;
-			chrome.storage.local.get(["lecture"], function(result){
-				const updatedLecture = result.lecture.map((lecture)=>{
-					if(lecture.title === title)
-						return {
-							...lecture,
-							record: lecture.alarm
-						};
-
-					else return lecture;
-				});
-				
-				chrome.storage.local.set({lecture: updatedLecture});
-				updateBadge(updatedLecture);
-			});
-
-			break;
-
 		case "editLecture":
 			chrome.tabs.create({url:"set_lecture.html"});
 			sendResponse({});
@@ -252,8 +262,4 @@ const msgListener = (request, sender, sendResponse)=>{
 	return true;
 };
 
-// Regularly Access (30 minutes) to Blackboard and get lecture diff
-access();
-let accessInterval = setInterval(access, INTERVAL_MINUTES(30));
-
-chrome.runtime.onMessage.addListener(msgListener);
+init();
