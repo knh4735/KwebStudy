@@ -1,0 +1,29 @@
+{
+    "name": "나무위키 링크 제거기",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "나무위키 사이트에서 링크를 제거한다.",
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts" :[
+        {
+            "matches" : ["https://namu.wiki/*"],
+            "js": ["jquery-3.3.1.min.js", "content.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "browser_action": {
+        "default_title": "나무위키 링크 제거기",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "https://namu.wiki/*",
+        "http://namu.wiki/*",
+        "tabs",
+        "background"
+    ]
+}
