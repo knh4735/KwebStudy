@@ -1,11 +1,11 @@
 Blackboard Alarm for Korea Univ.
 ===
-Ver 1.0 - 2019/06/01
+Ver 1.1 - 2019/06/04 : 영강 지원 및 오류 수정
 
 ---
 설정 방법
 
-0. BlackboardAlarm.zip를 다운받아 압축을 해제해 주세요.
+0. 오른쪽 상단의 Clone or download를 통해 다운로드하세요.
 
 1. 블랙보드 사이트에서 로그아웃 해주세요.
 
