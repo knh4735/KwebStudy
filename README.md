@@ -7,7 +7,7 @@ Study materials in Kweb (in Branch)
 - Study in klue : React, Node, Server system etc.
 
 ### 2016 - 2 
-- Run Rest API & GraphQL Server with parsed Pokemon DB 
+- Study Rest API & GraphQL Server (Node.js) with parsed Pokemon DB 
 
 
 ### 2016 - 1
