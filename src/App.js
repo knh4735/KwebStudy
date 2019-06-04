@@ -19,12 +19,14 @@ const App = ()=>{
 
   const handleCreate = useCallback(() => {
     setInput('');
-    setTodos(todos.concat({
-      id: id++,
-      text: input,
-      checked: false
-    }));
-  }, [input, todos]);
+    setTodos(todos => 
+      todos.concat({
+        id: id++,
+        text: input,
+        checked: false
+      })
+    );
+  }, [input]);
 
   const handleKeyPress = useCallback(e => {
     // 눌려진 키가 Enter 면 handleCreate 호출
@@ -34,25 +36,26 @@ const App = ()=>{
 
   const handleToggle = useCallback(id => {
     // 파라미터로 받은 id 를 가지고 몇번째 아이템인지 찾습니다.
-    console.log(todos);
-    const index = todos.findIndex(todo => todo.id === id);
+    setTodos(todos=>{
+      const index = todos.findIndex(todo => todo.id === id);
 
-    const selected = todos[index]; // 선택한 객체
+      const selected = todos[index]; // 선택한 객체
+  
+      const nextTodos = [...todos]; // 배열을 복사
+  
+      // 기존의 값들을 복사하고, checked 값을 덮어쓰기
+      nextTodos[index] = { 
+        ...selected, 
+        checked: !selected.checked
+      };
 
-    const nextTodos = [...todos]; // 배열을 복사
-
-    // 기존의 값들을 복사하고, checked 값을 덮어쓰기
-    nextTodos[index] = { 
-      ...selected, 
-      checked: !selected.checked
-    };
-    console.log(nextTodos);
-    setTodos(nextTodos);
-  }, [todos]);
+      return nextTodos;
+    });
+  }, []);
 
   const handleRemove = useCallback(id => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  }, [todos]);
+    setTodos(todos => todos.filter(todo => todo.id !== id));
+  }, []);
 
   return (
     <TodoListTemplate form={(
