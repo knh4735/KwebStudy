@@ -2,7 +2,7 @@
 Study materials in Kweb (in Branch)
 
 ### 2019 - 1
-- Chrome Extension : Make Alarm for Blackboard system
+- Chrome Extension : Make Alarm for Blackboard system after studying chrome extension
 - Study Docker and Kubernetes
 - Study in klue : React, Node, Server system etc.
 
