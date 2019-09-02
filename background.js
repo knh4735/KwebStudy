@@ -1,3 +1,4 @@
+const kulmsURL = "https://kulms.korea.ac.kr/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_2_1";
 
 const init = ()=>{
 	//Loading sign on badge
@@ -13,16 +14,31 @@ const init = ()=>{
 
 const INTERVAL_MINUTES = minutes => 1000 * 60 * minutes;
 
-const isLoggedIn = data => data.indexOf("Forgot Your Password?") === -1;
+const isLoggedIn = data => data.indexOf("Go to Login page") === -1;
 
 const makeLoginForm = (id, pw) => `id=${id}&pw=${pw}&returnURL=kulms.korea.ac.kr`;
 
 const loginBlackboard = async (id, pw)=>{
 	const loginData = makeLoginForm(id, pw);
+	const loginURL = "https://kulms.korea.ac.kr/auth-saml/saml/login?apId=_147_1&redirectUrl=https%3A%2F%2Fkulms.korea.ac.kr%2Fwebapps%2Fportal%2Fexecute%2FdefaultTab";
+
 	try{
-		const midresponse = await $.post("https://auth.korea.ac.kr/directLoginNew.jsp", loginData);
-		const midForm = $("<div></div>").append($.parseHTML(midresponse)).find("form");
-		const response = await $.post(midForm.attr("action"), midForm.serialize());
+		const beforeLoginPage = await $.get(loginURL);
+		const beforeLoginPageForm = $("<div></div>").append($.parseHTML(beforeLoginPage)).find("form");
+
+		const loginPage = await $.post(beforeLoginPageForm.attr("action"), beforeLoginPageForm.serialize());
+		const loginForm = $("<div></div>").append($.parseHTML(loginPage)).find("form");
+
+		loginForm.find("input[name='user_id']").remove();
+		loginForm.find("input[name='user_password']").remove();
+		loginForm.find("input[name='user_timezone_offset']").val(new Date().getTimezoneOffset());
+		loginForm.append("<input name='user_id' value='"+id+"'/>");
+		loginForm.append("<input name='user_password' value='"+pw+"'/>");
+
+		const tokenPage = await $.post("https://sso.korea.ac.kr"+loginForm.attr("action"), loginForm.serialize());
+		const tokenPageForm = $("<div></div>").append($.parseHTML(tokenPage)).find("form");
+		
+		const response = await $.post(tokenPageForm.attr("action"), tokenPageForm.serialize());
 
 		return Promise.resolve(isLoggedIn(response));
 	}
@@ -34,7 +50,7 @@ const loginBlackboard = async (id, pw)=>{
 
 const reqBlackboard = async ()=>{
 	try{
-		const data = await $.get("https://kulms.korea.ac.kr/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_2_1");
+		const data = await $.get(kulmsURL);
 		return Promise.resolve(data);
 	}
 	catch(err){
@@ -113,7 +129,7 @@ const access = async ()=>{
 				updateLectureAlarm(result.lecture);
 		
 			else{								// IF lecture URL is not set
-				chrome.tabs.create({url:"https://kulms.korea.ac.kr/webapps/portal/execute/tabs/tabAction?tab_tab_group_id=_2_1"});
+				chrome.tabs.create({url: kulmsURL});
 				chrome.tabs.create({url:"set_lecture.html"});
 			}
 		});
@@ -175,9 +191,8 @@ const msgListener = (request, sender, sendResponse)=>{
 			break;
 
 		case "refreshAlarm":
-			access().then(()=>{
-				sendResponse({});
-			});
+			access();
+			sendResponse({});
 
 			break;
 

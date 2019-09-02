@@ -1,6 +1,6 @@
 {
     "name": "블랙보드 알람",
-    "version": "1.1",
+    "version": "0.0.1",
     "manifest_version": 2,
     "description": "블랙보드에서 코스 공지사항 등의 알람",
     "background": {
@@ -21,7 +21,7 @@
     "permissions": [
         "https://kulms.korea.ac.kr/*",
         "http://kulms.korea.ac.kr/*",
-        "https://auth.korea.ac.kr/directLoginNew.jsp",
+        "https://sso.korea.ac.kr/*",
         "tabs",
         "background",
         "storage"
