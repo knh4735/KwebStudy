@@ -11,7 +11,7 @@ Study materials in Kweb (in Branch)
 
 
 ### 2016 - 1
-- Make a timeline style page with React.js
+- Develop timeline styled web page using *React.js*
 
 ### ETC
 Lost...
