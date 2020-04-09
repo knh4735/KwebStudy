@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Docker study - Week #1</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Docker & Kubernetes
+
+양민석, 김낙현, 김민수, 임경섭
+
+---
+
+name: 목차
+
+# 목차
+
+### 1. Docker란?
+### 2. Container vs VM
+### 3. Kubernetes?
+### 4. 스터디 Plan
+### 5. Docker 설치해보기
+
+---
+
+# Docker란?
+- Docker란 컨테이너를 실행시키는 런타임을 말합니다.
+- 컨테이너란 특정 소프트웨어와 그 소프트웨어의 종속성을 한 데 모아둔 일종의 표준 단위입니다.
+- 소프트웨어를 컨테이너로 관리하게 되면, 배포 시스템에 따라 실행 환경이 달라지는 문제점(Works on my machine 문제)를 해결할 수 있습니다.
+.center[![Docker logo](https://www.docker.com/sites/default/files/social/docker_facebook_share.png)]
+???
+예) 노드JS로 짜여진 웹 서버를 돌리기 위해서는 Node.js 런타임, 데이터베이스 등이 필요한데, 이러한 종속성을 하나의 큰 실행 단위 안으로 밀어넣은 것이 컨테이너임
+---
+
+# Container vs VM
+- 컨테이너는 그 위에서 여러가지 어플리케이션이 동시에 돌아간다는 점에서 가상 머신과 자주 비교됩니다.
+- 하지만 컨테이너는 VM을 실행할때와는 다르게 운영체제와 하이퍼바이저를 사용하지 않습니다.
+- 그래서 VM보다 훨씬 가볍고 빨라요!
+.center[![Container vs VM](https://www.sdxcentral.com/wp-content/uploads/2016/01/containers-versus-virtual-machines-docker-inc-rightscale.jpg)]
+
+---
+
+# Kubernetes란?
+- 하지만 도커 엔진은 하나의 서버에서만 돌아간다는 문제점이 있습니다.
+- 도커 엔진만 가지고 페일오버, 로드 밸런싱 등의 기능을 구현하기는 어렵습니다.
+- 그래서 나온 것이 Kubernetes!
+- Kubernetes는 컨테이너 워크로드 관리 플랫폼으로, 쉽게 말해 인프라의 어느 시스템에 어떤 컨테이너가 올라갈 지 관리하는 역할을 합니다.
+- 물론 이외에도 수많은 기능이 있지만, 이는 스터디 중후반부에 알아보도록 합시다.  
+  
+
+.center[![K8s Logo](https://upload.wikimedia.org/wikipedia/en/0/00/Kubernetes_%28container_engine%29.png)]
+---
+
+# 스터디 플랜
+- 1주차 (03/20):
+    Docker & K8s Introduction
+- 2주차 (03/27):
+    Docker 기본 명령어 & 이미지 빌드해보기 (Dockerfile)
+- 3주차 (04/03):
+    Docker 실습 (1/2): 배포할 이미지 제작
+- 4주차 (04/10):
+    Docker 실습 (2/2): 환경 구축 & 배포해보기
+- 5주차 (05/01):
+    Kubernetes Basic Tutorial 따라해보기 (클러스터 구축 + 앱 배포)
+- 6주차 (05/08):
+    Kubernetes로 Stateless한 어플리케이션 배포해보기
+- 7주차 (05/15):
+    Kubernetes로 Stateful한 어플리케이션 배포해보기
+- 8주차 (05/22):
+    Helm 소개 & 튜토리얼 따라해보기 (https://helm.sh/docs/using_helm/#using-helm)
+- 9주차 (05/29):
+    Helm을 통해 미디어위키 배포해보기
+
+---
+
+# Docker 설치
+```bash
+
+#!/bin/bash
+# Docker CE Installation Script
+# Based on https://docs.docker.com/install/linux/docker-ce/ubuntu
+
+# Uninstall old version
+sudo apt-get -y remove docker docker-engine docker.io
+
+# Setup the repositories
+sudo apt-get update
+sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+echo '---- VALIDATE THE KEY ----'
+sudo apt-key fingerprint 0EBFCD88
+echo
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+
+# Install Docker CE
+sudo apt-get update
+sudo apt-get -y install docker-ce
+```
+- Windows, MacOS의 경우 https://www.docker.com/get-started 참고
+
+---
+# Docker 실행 결과
+```bash
+frank@frank-P34V5:~$ docker run hello-world
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+frank@frank-P34V5:~$ ```
+    </textarea>
+    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
